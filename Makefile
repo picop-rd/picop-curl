@@ -1,3 +1,3 @@
 .PHONY: build
 build:
-	go build -o bcop-curl
+	go build -o picop-curl

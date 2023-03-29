@@ -9,13 +9,13 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/hiroyaonoe/bcop-go/contrib/net/http/bcophttp"
-	"github.com/hiroyaonoe/bcop-go/propagation"
-	"github.com/hiroyaonoe/bcop-go/protocol/header"
+	"github.com/picop-rd/picop-go/contrib/net/http/picophttp"
+	"github.com/picop-rd/picop-go/propagation"
+	"github.com/picop-rd/picop-go/protocol/header"
 )
 
 func main() {
-	envID := flag.String("env-id", "", "BCoP env-id")
+	envID := flag.String("env-id", "", "PiCoP env-id")
 	url := flag.String("url", "", "URL")
 	data := flag.String("data", "", "HTTP POST data")
 	method := flag.String("method", "GET", "HTTP method")
@@ -25,10 +25,10 @@ func main() {
 	h := header.NewV1()
 	h.Set(propagation.EnvIDHeader, *envID)
 	ctx := context.Background()
-	ctx = propagation.EnvID{}.Extract(ctx, propagation.NewBCoPCarrier(h))
+	ctx = propagation.EnvID{}.Extract(ctx, propagation.NewPiCoPCarrier(h))
 
 	client := &http.Client{
-		Transport: bcophttp.NewTransport(nil, propagation.EnvID{}),
+		Transport: picophttp.NewTransport(nil, propagation.EnvID{}),
 	}
 	req, err := http.NewRequestWithContext(ctx, *method, *url, strings.NewReader(*data))
 	if err != nil {
